@@ -6,6 +6,7 @@ then
     exit 1
 fi
 
+## check directory first and then create file
 if [[ -d $(dirname $1) ]]
 then
     touch $1
