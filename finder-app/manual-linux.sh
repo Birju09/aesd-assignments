@@ -37,14 +37,14 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     git checkout ${KERNEL_VERSION}
 
     # TODO: Add your kernel build steps here
-    make -j 4 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} mrproper
-    make -j 4 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} defconfig
-    make -j 4 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} dtbs
-    make -j 4 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} modules
+    make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} mrproper
+    make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} defconfig
+    make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} dtbs
+    make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} modules
 fi
 
 echo "Adding the Image in outdir"
-cp ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ${OUTDIR}/
+cp -r ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ${OUTDIR}/
 
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
@@ -83,11 +83,11 @@ make arch=ARM CROSS_COMPILE=${CROSS_COMPILE} -j 4
 make install
 
 echo "Library dependencies"
-${CROSS_COMPILE}readelf -a bin/busybox | grep "program interpreter"
-${CROSS_COMPILE}readelf -a bin/busybox | grep "Shared library"
+${CROSS_COMPILE}readelf -a _install/bin/busybox | grep "program interpreter"
+${CROSS_COMPILE}readelf -a _install/bin/busybox | grep "Shared library"
 
 # TODO: Add library dependencies to rootfs
-export SYSROOT=$(${CROSS_COMPILE}-gcc -print-sysroot)
+export SYSROOT=$(${CROSS_COMPILE}gcc -print-sysroot)
 cd ${OUTDIR}/rootfs
 cp -a $SYSROOT/lib/ld-linux-aarch64.so.1 lib
 cp -a $SYSROOT/lib64/libm.so.6 lib
@@ -98,30 +98,26 @@ cp -a $SYSROOT/lib64/libc.so.6 lib
 cp -a $SYSROOT/lib64/libc-2.31.so lib
 
 
-# TODO: Make device nodes
-cd ${OUTDIR}/rootfs
-sudo mknod -m 666 dev/null c 1 3
-sudo mknod -m 600 dev/console c 5 1
-
-# TODO: Clean and build the writer utility
 cd $CURRENT_DIR
 make clean
 make arm
-
-
-# TODO: Copy the finder related scripts and executables to the /home directory
-# on the target rootfs
 
 cp finder.sh $OUTDIR/rootfs/home
 cp writer $OUTDIR/rootfs/home
 cp writer.sh $OUTDIR/rootfs/home
 
-# TODO: Chown the root directory
-sudo chown -R root:root ${OUTDIR}/rootfs
+# TODO: Make device nodes
+cd ${OUTDIR}/rootfs
+sudo mknod -m 666 dev/null c 1 3
+sudo mknod -m 600 dev/console c 5 1
+
 
 # TODO: Create initramfs.cpio.gz
 cd ${OUTDIR}/rootfs
 find . | cpio -H newc -ov --owner root:root > ../initramfs.cpio
 cd ..
 gzip initramfs.cpio
-mkimage -A arm -O linux -T ramdisk -d initramfs.cpio.gz uRamdisk
+
+
+# TODO: Chown the root directory
+sudo chown -R root:root ${OUTDIR}/rootfs
