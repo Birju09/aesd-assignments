@@ -116,6 +116,7 @@ sudo mknod -m 600 dev/console c 5 1
 cd ${OUTDIR}/rootfs
 find . | cpio -H newc -ov --owner root:root > ../initramfs.cpio
 cd ..
+rm initramfs.cpio.gz # to avoid prompt
 gzip initramfs.cpio
 
 
