@@ -41,10 +41,11 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} defconfig
     make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} dtbs
     make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} modules
+    make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} all
 fi
 
 echo "Adding the Image in outdir"
-cp -r ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ${OUTDIR}/
+cp ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ${OUTDIR}/
 
 echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
@@ -112,12 +113,11 @@ sudo mknod -m 666 dev/null c 1 3
 sudo mknod -m 600 dev/console c 5 1
 
 
+# TODO: Chown the root directory
+sudo chown -R root:root ${OUTDIR}/rootfs/*
+
 # TODO: Create initramfs.cpio.gz
 cd ${OUTDIR}/rootfs
 find . | cpio -H newc -ov --owner root:root > ../initramfs.cpio
 cd ..
 gzip initramfs.cpio
-
-
-# TODO: Chown the root directory
-sudo chown -R root:root ${OUTDIR}/rootfs
