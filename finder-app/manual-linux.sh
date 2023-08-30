@@ -110,6 +110,7 @@ cp writer $OUTDIR/rootfs/home
 cp writer.sh $OUTDIR/rootfs/home
 cp autorun-qemu.sh $OUTDIR/rootfs/home
 cp -r conf/ ${OUTDIR}/rootfs/home
+cp -r conf/ ${OUTDIR}/rootfs/
 
 # TODO: Make device nodes
 cd ${OUTDIR}/rootfs
