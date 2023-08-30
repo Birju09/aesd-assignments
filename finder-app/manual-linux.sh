@@ -104,6 +104,7 @@ cd $CURRENT_DIR
 make clean
 make arm
 
+# copy test files
 cp finder.sh $OUTDIR/rootfs/home
 cp finder-test.sh $OUTDIR/rootfs/home
 cp writer $OUTDIR/rootfs/home
