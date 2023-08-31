@@ -37,7 +37,7 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     echo "Checking out version ${KERNEL_VERSION}"
     git checkout ${KERNEL_VERSION}
 
-    # TODO: Add your kernel build steps here
+
     make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} mrproper
     make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} defconfig
     make -j 8 ARCH=$ARCH CROSS_COMPILE=${CROSS_COMPILE} dtbs
