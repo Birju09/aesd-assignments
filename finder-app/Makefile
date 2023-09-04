@@ -1,4 +1,4 @@
-CROSS_COMPILE = aarch64-none-linux-gnu-gcc
+CROSS_COMPILE = $(CROSS_COMPILE)gcc
 NATIVE = gcc
 TARGET = writer
 SRC = writer.c
