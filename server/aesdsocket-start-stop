@@ -1,0 +1,18 @@
+#!/bin/sh
+
+case $1 in
+    start)
+        echo "Starting aesdsocket server ..."
+        start-stop-daemon -S -n /usr/bin/aesdsocket -- -d
+        ;;
+    stop)
+        echo "Killing aesksocket server ..."
+        start-stop-daemon -K -n aesdsocket
+        ;;
+    *)
+        echo "Invalid argument. Usage is aesdsocket [start/stop]
+        exit 1
+esac
+
+
+exit 0
