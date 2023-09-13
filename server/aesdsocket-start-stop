@@ -10,7 +10,7 @@ case $1 in
         start-stop-daemon -K -n aesdsocket
         ;;
     *)
-        echo "Invalid argument. Usage is aesdsocket [start/stop]
+        echo "Invalid argument. Usage is aesdsocket [start/stop]"
         exit 1
 esac
 
