@@ -1,4 +1,4 @@
-CROSS_COMPILE = aarch64-none-linux-gnu-
+CROSS_COMPILE = aarch64-none-linux-gnu-gcc
 NATIVE = gcc
 TARGET = aesdsocket
 SRC = aesdsocket.c
@@ -8,7 +8,7 @@ CFLAGS = -Wall -Werror
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(SRC) -g -o $(TARGET) $(CFLAGS) 
+	$(CROSS_COMPILE) $(SRC) -g -o $(TARGET) $(CFLAGS) 
 
 clean:
 	rm -rf $(OBJECTS) $(TARGET)
