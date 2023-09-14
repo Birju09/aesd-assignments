@@ -8,7 +8,7 @@ CFLAGS = -Wall -Werror
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CROSS_COMPILE) $(SRC) -g -o $(TARGET) $(CFLAGS) 
+	$(CC) $(SRC) -g -o $(TARGET) $(CFLAGS) 
 
 clean:
 	rm -rf $(OBJECTS) $(TARGET)
