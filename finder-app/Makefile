@@ -7,7 +7,7 @@ all:
 	$(NATIVE) $(SRC) -o $(OBJECTS) $(TARGET)
 
 arm:
-	$(CROSS_COMPILE) $(SRC) -o $(OBJECTS) $(TARGET)
+	$(CC) $(SRC) -o $(OBJECTS) $(TARGET)
 
 clean:
 	rm -rf $(OBJECTS) $(TARGET)
